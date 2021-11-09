@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                        height: MediaQuery.of(context).size.height - 100,
+                        height: MediaQuery.of(context).size.height - 200,
                         child: StockList(stocks: Stock.getAll()))
                   ]),
             ),

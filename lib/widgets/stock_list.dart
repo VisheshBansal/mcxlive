@@ -10,7 +10,7 @@ class StockList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         separatorBuilder: (context, index) {
-          return Divider(color: Colors.green);
+          return Divider(color: Colors.grey[500]);
         },
         itemCount: stocks.length,
         itemBuilder: (context, index) {
@@ -25,12 +25,29 @@ class StockList extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 20)),
-                  Text("${stock.change}",
+                  Text("Low: ${stock.low}\t High: ${stock.high}",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 12))
                 ]),
+            trailing: Column(
+              children: <Widget>[
+                Text("\u{20B9}${stock.ltp}",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text("${stock.change}",
+                      style: TextStyle(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13)),
+                )
+              ],
+            ),
           );
         });
   }
