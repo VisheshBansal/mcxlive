@@ -15,7 +15,6 @@ final Map<String, String> tokenData = {
   'If-None-Match': 'W/"35f6-lbZAd6vCBUugPaqRPtDi0w"'
 };
 
-
 Future<List<Stock>> getData(String data) async {
   List<Stock> list;
   final String apiEndpoint = 'http://88.99.61.159:5050/getdata';
@@ -36,6 +35,8 @@ class Stock {
   final String symbol;
   final String expdate;
   final String ltp;
+  final String buy;
+  final String sell;
   final String high;
   final String low;
   final String open;
@@ -46,6 +47,8 @@ class Stock {
       {required this.symbol,
       required this.expdate,
       required this.ltp,
+      required this.buy,
+      required this.sell,
       required this.high,
       required this.low,
       required this.open,
@@ -57,6 +60,8 @@ class Stock {
         symbol: json["Symbol"],
         expdate: json["Ser/Exp"],
         ltp: json["Last Traded Price"],
+        buy: json["Buy Price"],
+        sell: json["Sell Price"],
         high: json["High"],
         low: json["Low"],
         open: json["Open"],

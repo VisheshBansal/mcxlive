@@ -25,7 +25,7 @@ class StockList extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontSize: 20)),
-                  Text("Low: ${stock.low}\t High: ${stock.high}",
+                  Text("L: ${stock.low}  H: ${stock.high}  O: ${stock.open}",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
