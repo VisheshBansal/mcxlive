@@ -17,7 +17,7 @@ final Map<String, String> tokenData = {
 
 Future<Stock> getData() async {
   Stock list;
-  final String apiEndpoint = 'http://88.99.61.159:5050/getdata';
+  const String apiEndpoint = 'http://88.99.61.159:5050/getdata';
   final Uri url = Uri.parse(apiEndpoint);
   var res = await http.get(url, headers: tokenData);
   if (res.statusCode == 200) {
@@ -46,7 +46,7 @@ class Stock {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data?.map((v) => v.toJson()).toList();
     }
@@ -122,74 +122,27 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Exchange'] = this.exchange;
-    data['Symbol'] = this.symbol;
-    data['Ser/Exp'] = this.serExp;
-    data['Last Traded Price'] = this.lastTradedPrice;
-    data['Buy Price'] = this.buyPrice;
-    data['Sell Price'] = this.sellPrice;
-    data['High'] = this.high;
-    data['Low'] = this.low;
-    data['Open'] = this.open;
-    data['Close'] = this.close;
-    data['Last Update Time'] = this.lastUpdateTime;
-    data['Net Change In Rs'] = this.netChangeInRs;
-    data['Total Buy Qty'] = this.totalBuyQty;
-    data['Total Sell Qty'] = this.totalSellQty;
-    data['Open Interest'] = this.openInterest;
-    data['% Change'] = this.perChange;
-    data['DPR'] = this.dPR;
-    data['Volume (in 000s)'] = this.volumeIn000s;
-    data['Avg. Traded Price'] = this.avgTradedPrice;
-    data['Code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Exchange'] = exchange;
+    data['Symbol'] = symbol;
+    data['Ser/Exp'] = serExp;
+    data['Last Traded Price'] = lastTradedPrice;
+    data['Buy Price'] = buyPrice;
+    data['Sell Price'] = sellPrice;
+    data['High'] = high;
+    data['Low'] = low;
+    data['Open'] = open;
+    data['Close'] = close;
+    data['Last Update Time'] = lastUpdateTime;
+    data['Net Change In Rs'] = netChangeInRs;
+    data['Total Buy Qty'] = totalBuyQty;
+    data['Total Sell Qty'] = totalSellQty;
+    data['Open Interest'] = openInterest;
+    data['% Change'] = perChange;
+    data['DPR'] = dPR;
+    data['Volume (in 000s)'] = volumeIn000s;
+    data['Avg. Traded Price'] = avgTradedPrice;
+    data['Code'] = code;
     return data;
   }
 }
-
-/*class Stock {
-  final String symbol;
-  final String expdate;
-  final String ltp;
-  final String buy;
-  final String sell;
-  final String high;
-  final String low;
-  final String open;
-  final String close;
-  final String change;
-
-  Stock(
-      {required this.symbol,
-      required this.expdate,
-      required this.ltp,
-      required this.buy,
-      required this.sell,
-      required this.high,
-      required this.low,
-      required this.open,
-      required this.close,
-      required this.change});
-
-  factory Stock.fromJson(json) {
-    return Stock(
-        symbol: json["Symbol"],
-        expdate: json["Ser/Exp"],
-        ltp: json["Last Traded Price"],
-        buy: json["Buy Price"],
-        sell: json["Sell Price"],
-        high: json["High"],
-        low: json["Low"],
-        open: json["Open"],
-        close: json["Close"],
-        change: json["Net Change In Rs"]);
-  }
-
-  static List<Stock> getAll() {
-    List<Stock> stocks = <Stock>[];
-    var json = getData('lol');
-    stocks.add(Stock.fromJson(json));
-
-    return stocks;
-  }
-}*/

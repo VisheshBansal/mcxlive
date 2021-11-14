@@ -1,9 +1,14 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mcxliveview/models/stock.dart';
+import 'package:intl/intl.dart';
 
 class StockList extends StatefulWidget {
+  const StockList({Key? key}) : super(key: key);
+
   //final List<Stock> stocks;
 
   //StockList({required this.stocks});
@@ -20,7 +25,7 @@ class _StockListState extends State<StockList> {
   void initState() {
     super.initState();
     futureStocks = getData();
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       futureStocks = getData();
     });
   }
@@ -39,15 +44,19 @@ class _StockListState extends State<StockList> {
                 itemBuilder: (context, index) {
                   final stock = snapshot.data!.data![index];
 
-                  Color getColor(String? itemval) {
-                    if (itemval != null) {
-                      if (itemval.startsWith('+')) {
-                        return Colors.green;
+                  Color getColor(String? itemval, perVal) {
+                    String day = DateFormat('EEEE').format(DateTime.now());
+                    if ((itemval != null) &&
+                        (day != "Saturday" && day != "Sunday")) {
+                      perVal = perVal.replaceAll('%', "");
+                      perVal = double.parse(perVal);
+                      if (itemval.startsWith('+') || perVal > 0) {
+                        return Color(0xFF32CD32);
                       }
                       if (itemval.startsWith('-')) {
-                        return Colors.redAccent;
+                        return Colors.red;
                       } else {
-                        return Colors.greenAccent;
+                        return Colors.yellow;
                       }
                     }
                     return Colors.yellow;
@@ -60,16 +69,17 @@ class _StockListState extends State<StockList> {
                         children: <Widget>[
                           Text("${stock.symbol}",
                               style: TextStyle(
-                                  color: Colors.grey[300],
+                                  color: Colors.grey[100],
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 16)),
+                                  fontSize: 20)),
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text("${stock.lastTradedPrice}",
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: getColor(
+                                        stock.netChangeInRs, stock.perChange),
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 20)),
+                                    fontSize: 22)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
@@ -98,7 +108,8 @@ class _StockListState extends State<StockList> {
                           child: Text(
                               "${stock.netChangeInRs}  (${stock.perChange}%)",
                               style: TextStyle(
-                                  color: getColor(stock.netChangeInRs),
+                                  color: getColor(
+                                      stock.netChangeInRs, stock.perChange),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14)),
                         )
@@ -108,7 +119,7 @@ class _StockListState extends State<StockList> {
                 });
           } else {
             return Center(
-                child: Container(
+                child: SizedBox(
                     height: 50,
                     width: 50,
                     child: CircularProgressIndicator(
