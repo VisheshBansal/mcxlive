@@ -70,7 +70,7 @@ class Data {
   String? totalBuyQty;
   String? totalSellQty;
   String? openInterest;
-  String? change;
+  String? perChange;
   String? dPR;
   String? volumeIn000s;
   String? avgTradedPrice;
@@ -92,7 +92,7 @@ class Data {
       this.totalBuyQty,
       this.totalSellQty,
       this.openInterest,
-      this.change,
+      this.perChange,
       this.dPR,
       this.volumeIn000s,
       this.avgTradedPrice,
@@ -114,7 +114,7 @@ class Data {
     totalBuyQty = json['Total Buy Qty'];
     totalSellQty = json['Total Sell Qty'];
     openInterest = json['Open Interest'];
-    change = json['% Change'];
+    perChange = json['% Change'];
     dPR = json['DPR'];
     volumeIn000s = json['Volume (in 000s)'];
     avgTradedPrice = json['Avg. Traded Price'];
@@ -138,7 +138,7 @@ class Data {
     data['Total Buy Qty'] = this.totalBuyQty;
     data['Total Sell Qty'] = this.totalSellQty;
     data['Open Interest'] = this.openInterest;
-    data['% Change'] = this.change;
+    data['% Change'] = this.perChange;
     data['DPR'] = this.dPR;
     data['Volume (in 000s)'] = this.volumeIn000s;
     data['Avg. Traded Price'] = this.avgTradedPrice;

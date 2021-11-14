@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mcxliveview/models/stock.dart';
 
@@ -38,37 +38,69 @@ class _StockListState extends State<StockList> {
                 itemCount: snapshot.data?.data?.length ?? 0,
                 itemBuilder: (context, index) {
                   final stock = snapshot.data!.data![index];
+
+                  Color getColor(String? itemval) {
+                    if (itemval != null) {
+                      if (itemval.startsWith('+')) {
+                        return Colors.green;
+                      }
+                      if (itemval.startsWith('-')) {
+                        return Colors.redAccent;
+                      } else {
+                        return Colors.greenAccent;
+                      }
+                    }
+                    return Colors.yellow;
+                  }
+
                   return ListTile(
-                    contentPadding: EdgeInsets.all(10),
+                    contentPadding: EdgeInsets.all(6),
                     title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text("${stock.symbol}",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.grey[300],
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 20)),
-                          Text(
-                              "L: ${stock.low}  H: ${stock.high}  O: ${stock.open}",
+                                  fontSize: 16)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text("${stock.lastTradedPrice}",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text("L: ${stock.low}  H: ${stock.high}",
+                                style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12)),
+                          ),
+                          Text("O: ${stock.open}  C: ${stock.close}",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12))
+                                  color: Colors.grey[400],
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12)),
                         ]),
                     trailing: Column(
                       children: <Widget>[
-                        Text("\u{20B9}${stock.lastTradedPrice}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18)),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Text("${stock.change}",
+                        if (stock.buyPrice != "")
+                          Text("${stock.buyPrice} | ${stock.sellPrice}",
                               style: TextStyle(
-                                  color: Colors.redAccent,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18)),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, right: 0),
+                          child: Text(
+                              "${stock.netChangeInRs}  (${stock.perChange}%)",
+                              style: TextStyle(
+                                  color: getColor(stock.netChangeInRs),
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 13)),
+                                  fontSize: 14)),
                         )
                       ],
                     ),
@@ -77,7 +109,12 @@ class _StockListState extends State<StockList> {
           } else {
             return Center(
                 child: Container(
-                    height: 50, width: 50, child: CircularProgressIndicator()));
+                    height: 50,
+                    width: 50,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.greenAccent),
+                    )));
           }
         });
   }
