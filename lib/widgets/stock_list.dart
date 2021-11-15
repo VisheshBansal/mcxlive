@@ -25,8 +25,10 @@ class _StockListState extends State<StockList> {
   void initState() {
     super.initState();
     futureStocks = getData();
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      futureStocks = getData();
+    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      setState(() {
+        futureStocks = getData();
+      });
     });
   }
 
@@ -46,7 +48,7 @@ class _StockListState extends State<StockList> {
 
                   Color getColor(String? itemval, perVal) {
                     String day = DateFormat('EEEE').format(DateTime.now());
-                    if ((itemval != null) &&
+                    if ((itemval != null && perVal != null) &&
                         (day != "Saturday" && day != "Sunday")) {
                       perVal = perVal.replaceAll('%', "");
                       perVal = double.parse(perVal);
@@ -106,7 +108,7 @@ class _StockListState extends State<StockList> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20, right: 0),
                           child: Text(
-                              "${stock.netChangeInRs}  (${stock.perChange}%)",
+                              "${stock.netChangeInRs}  (${stock.perChange})",
                               style: TextStyle(
                                   color: getColor(
                                       stock.netChangeInRs, stock.perChange),
