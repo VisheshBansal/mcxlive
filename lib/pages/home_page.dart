@@ -10,9 +10,15 @@ getCurrentDate() {
   return date;
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String filteredText = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +55,12 @@ class HomePage extends StatelessWidget {
                         child: TextField(
                           cursorColor: Colors.teal,
                           style: TextStyle(color: Colors.white),
+                          textAlignVertical: TextAlignVertical.center,
+                          onChanged: (value) {
+                            setState(() {
+                              filteredText = value;
+                            });
+                          },
                           decoration: InputDecoration(
                               hintStyle: TextStyle(color: Colors.grey[500]),
                               hintText: "Search",
@@ -62,7 +74,7 @@ class HomePage extends StatelessWidget {
                     ),
                     SizedBox(
                         height: MediaQuery.of(context).size.height - 200,
-                        child: StockList())
+                        child: StockList(filteredText: filteredText))
                   ]),
             ),
           ),

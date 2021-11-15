@@ -7,7 +7,9 @@ import 'package:mcxliveview/models/stock.dart';
 import 'package:intl/intl.dart';
 
 class StockList extends StatefulWidget {
-  const StockList({Key? key}) : super(key: key);
+  const StockList({Key? key, required this.filteredText}) : super(key: key);
+
+  final String filteredText;
 
   //final List<Stock> stocks;
 
@@ -25,7 +27,7 @@ class _StockListState extends State<StockList> {
   void initState() {
     super.initState();
     futureStocks = getData();
-    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    Timer.periodic(const Duration(milliseconds: 500), (Timer t) {
       setState(() {
         futureStocks = getData();
       });
@@ -38,13 +40,18 @@ class _StockListState extends State<StockList> {
         future: futureStocks,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            var list = snapshot.data!.data!
+                .where((element) => element.symbol!
+                    .toLowerCase()
+                    .contains(widget.filteredText.toLowerCase()))
+                .toList();
             return ListView.separated(
                 separatorBuilder: (context, index) {
                   return Divider(color: Colors.grey[500]);
                 },
-                itemCount: snapshot.data?.data?.length ?? 0,
+                itemCount: list.length,
                 itemBuilder: (context, index) {
-                  final stock = snapshot.data!.data![index];
+                  final stock = list[index];
 
                   Color getColor(String? itemval, perVal) {
                     String day = DateFormat('EEEE').format(DateTime.now());
@@ -73,7 +80,7 @@ class _StockListState extends State<StockList> {
                               style: TextStyle(
                                   color: Colors.grey[100],
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 20)),
+                                  fontSize: 18)),
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text("${stock.lastTradedPrice}",
