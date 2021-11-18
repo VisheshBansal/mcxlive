@@ -15,6 +15,24 @@ final Map<String, String> tokenData = {
   'If-None-Match': 'W/"35f6-lbZAd6vCBUugPaqRPtDi0w"'
 };
 
+final List neededSymbols = [
+  "GOLD",
+  "SILVER",
+  "CRUDEOIL",
+  "COPPER",
+  "NICKEL",
+  "LEAD",
+  "ZINC",
+  "ALUMINIIUM",
+  "NATURALGAS",
+  "Nifty",
+  "Bank Nifty",
+  "USD/INR",
+  "GBP/INR",
+  "JPY/INR",
+  "EUR/INR"
+];
+
 Future<Stock> getData() async {
   Stock list;
   const String apiEndpoint = 'http://88.99.61.159:5050/getdata';
@@ -23,6 +41,11 @@ Future<Stock> getData() async {
   if (res.statusCode == 200) {
     var data = json.decode(res.body);
     list = Stock.fromJson(data);
+
+    List<Data> filterList = list.data!
+        .where((element) => neededSymbols.contains(element.symbol))
+        .toList();
+    list.data = filterList;
     //var rest = data["data"] as List;
     //list = rest.map<Stock>((json) => Stock.fromJson(json)).toList();
   } else {
