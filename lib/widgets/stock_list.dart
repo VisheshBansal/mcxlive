@@ -27,7 +27,7 @@ class _StockListState extends State<StockList> {
   void initState() {
     super.initState();
     futureStocks = getData();
-    Timer.periodic(const Duration(milliseconds: 500), (Timer t) {
+    Timer.periodic(const Duration(milliseconds: 450), (Timer t) {
       setState(() {
         futureStocks = getData();
       });
@@ -80,7 +80,15 @@ class _StockListState extends State<StockList> {
                               style: TextStyle(
                                   color: Colors.grey[100],
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 18)),
+                                  fontSize: 14)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text("${stock.serExp}",
+                                style: TextStyle(
+                                    color: Colors.tealAccent,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10)),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text("${stock.lastTradedPrice}",
@@ -88,7 +96,7 @@ class _StockListState extends State<StockList> {
                                     color: getColor(
                                         stock.netChangeInRs, stock.perChange),
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 22)),
+                                    fontSize: 18)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
@@ -96,13 +104,13 @@ class _StockListState extends State<StockList> {
                                 style: TextStyle(
                                     color: Colors.grey[400],
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 12)),
+                                    fontSize: 8)),
                           ),
                           Text("O: ${stock.open}  C: ${stock.close}",
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 12)),
+                                  fontSize: 8)),
                         ]),
                     trailing: Column(
                       children: <Widget>[
@@ -111,7 +119,7 @@ class _StockListState extends State<StockList> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 18)),
+                                  fontSize: 14)),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, right: 0),
                           child: Text(
@@ -120,7 +128,7 @@ class _StockListState extends State<StockList> {
                                   color: getColor(
                                       stock.netChangeInRs, stock.perChange),
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14)),
+                                  fontSize: 12)),
                         )
                       ],
                     ),
